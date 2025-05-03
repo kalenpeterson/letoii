@@ -1,0 +1,33 @@
+Thank you for installing {{ .Chart.Name }}.
+
+Your release is named {{ .Release.Name }}.
+
+The scraper is configured to run as a CronJob with schedule: {{ .Values.scraper.schedule }}
+
+{{- if .Values.minio.enabled }}
+
+MinIO has been deployed as part of this release:
+
+API Service: {{ .Release.Name }}-minio:{{ .Values.minio.service.port }}
+Console Service: {{ .Release.Name }}-minio-console:{{ .Values.minio.consoleService.port }}
+
+To access MinIO API from outside the cluster:
+  kubectl port-forward svc/{{ .Release.Name }}-minio {{ .Values.minio.service.port }}:{{ .Values.minio.service.port }}
+
+To access MinIO Console from outside the cluster:
+  kubectl port-forward svc/{{ .Release.Name }}-minio-console {{ .Values.minio.consoleService.port }}:{{ .Values.minio.consoleService.port }}
+
+Then access MinIO Console at: http://localhost:{{ .Values.minio.consoleService.port }}
+
+Default credentials:
+  Access Key: {{ .Values.minio.accessKey }}
+  Secret Key: {{ .Values.minio.secretKey }}
+
+{{- if .Values.minio.ingress.enabled }}
+MinIO Console is also available via Ingress:
+{{- range .Values.minio.ingress.hosts }}
+  http{{ if $.Values.minio.ingress.tls }}s{{ end }}://{{ .host }}
+{{- end }}
+{{- end }}
+
+{{- end }}
