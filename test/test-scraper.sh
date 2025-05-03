@@ -1,0 +1,1 @@
+docker run -it --entrypoint=/bin/bash -v "$(PWD):/mnt" kalenpeterson/letoii-scraper:v1
