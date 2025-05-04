@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: letoii
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/kalenpeterson/letoii.git
+    targetRevision: HEAD
+    path: deploy/helm/letoii-chart
+    helm:
+      valueFiles:
+        - values.yaml
+      # Optional: Override values from values.yaml
+      # values: |
+      #   scraper:
+      #     schedule: "0 2 * * *"
+      #   minio:
+      #     persistence:
+      #       size: 20Gi
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: letoii
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - PruneLast=true
+      - ApplyOutOfSyncOnly=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
