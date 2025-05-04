@@ -2,7 +2,7 @@
 ![“The power to destroy a thing is the absolute control over it”](./images/logo_100.png)
 
 “But it was all based on the spice, a substance whose value, though enormous, kept increasing.”
-— *Leto II, God Emperor of Dune*
+*Leto II, God Emperor of Dune*
 
 ## Overview
 Letoii is a project that includes a web scraper component built with Python. The scraper is containerized for easy deployment and consistent execution across different environments.
